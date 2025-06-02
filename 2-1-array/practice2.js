@@ -11,3 +11,20 @@
 */
 
 let array = ['유노윤호', '최강창민', '영웅재중', '믹키유천', '시아준수'];
+let userInput = ``;
+let idx = 0;
+
+while (true) {
+  userInput = prompt(`현재 멤버: [${array}]\n수정할 이름을 입력하세요.`);
+  if(array.includes(userInput)) {
+    idx = array.indexOf(userInput);
+    array.splice(idx, 1);
+  } else {
+    alert(`${userInput}은(는) 잘못된 이름입니다.\n정확한 이름을 입력하세요.`);
+    continue;
+  }
+  if(array.length===0) {
+    alert(`모든 멤버가 삭제되었습니다.`);
+    break;
+  }
+}
