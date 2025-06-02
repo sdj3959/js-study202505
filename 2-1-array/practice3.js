@@ -10,3 +10,23 @@
    다시 수정할 이름을 입력할 수 있도록 하세요.
 4. 한 명의 멤버를 정확하게 수정할때까지 프로그램은 계속되어야 합니다.
 */
+
+let array = ['유노윤호', '최강창민', '영웅재중', '믹키유천', '시아준수'];
+let userInput = ``;
+let idx = 0;
+let modify = ``;
+
+while (true) {
+  userInput = prompt(`현재 멤버: [${array}]\n수정할 이름을 입력하세요.`);
+  if(array.includes(userInput)){
+    idx = array.indexOf(userInput);
+    modify = prompt(`새로운 이름을 입력하세요.`);
+    array.splice(idx, 1, modify);
+    alert(`수정 완료!\n남은 멤버: [${array}]`);
+    break;
+  } else {
+    if (userInput === null) userInput = ``;
+    alert(`${userInput}은(는) 잘못된 이름입니다.\n정확한 이름을 입력하세요.`);
+    continue;
+  }
+}
