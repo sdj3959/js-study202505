@@ -40,6 +40,10 @@ let userInfo = {
 let userChoice = 0;
 let registerId = '';
 let registerPw = '';
+let registerName = ``;
+let registerUserInfo = [];
+
+let duplicateId = ``;
 
 let inputId = '';
 let idIdx = NaN;
@@ -49,8 +53,22 @@ let inputPw = '';
 while (true) {
   userChoice = +prompt(`1. 회원가입하기 2. 로그인하기`)
   if (userChoice === 1) {
+    registerName = prompt(`사용자 이름을 입력하세요.`);
     while (true) {
+      registerId = prompt(`생성할 아이디를 입력하세요.`);
+      if(userInfo.userList.some(user => user.account === `${registerId}`)) {
+        alert(`중복된 아이디 입니다.`);
+        continue;
+      }
+      registerPw = prompt(`설정할 비밀번호를 입력하세요`);
 
+      registerUserInfo.username = registerName;
+      registerUserInfo.account = registerId;
+      registerUserInfo.password = registerPw;
+
+      userInfo.userList.push(registerUserInfo);
+      alert(`${registerId}님 회원가입 완료!`);
+      break;
     }
   } else if (userChoice === 2) {
     while (true) {
