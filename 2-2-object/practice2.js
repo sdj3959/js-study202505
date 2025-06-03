@@ -43,8 +43,6 @@ let registerPw = '';
 let registerName = ``;
 let registerUserInfo = [];
 
-let duplicateId = ``;
-
 let inputId = '';
 let idIdx = NaN;
 let isCorrect = false;
