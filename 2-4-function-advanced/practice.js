@@ -98,4 +98,24 @@ console.log('==============================');
 
 
 // none() 구현하기
+function none(callback) {
+  let mappedBoolean = false;
+  for (const user of userList) {
+    if(callback(user)) {
+      mappedBoolean = false;
+      break;
+    } else mappedBoolean = true;
+  }
+  return mappedBoolean;
+}
+
+// '게임'이라는 취미를 가진 사용자가 없는가?
+const result6 = none(user => user.hobbys.includes('게임')); // true
+console.log(result6);
+// 서울에 사는 사용자가 아무도 없는가?
+const result7 = none(user => user.address === '서울'); // false
+console.log(result7);
+
+console.log('==============================');
+
 
