@@ -118,4 +118,58 @@ console.log(result7);
 
 console.log('==============================');
 
+function custom(userArray, callback, type) {
+  // type === 'filter' → 조건 만족하는 배열
+  // type === 'map' → 특정 값 추출
+  // type === 'every' → 모두 조건 만족?
+  // type === 'some' → 하나라도 만족?
+  const mappedArray = [];
+  switch (type) {
+    case `filter` :
+      for (const user of userArray) {
+        if (callback(user)) {
+          mappedArray.push(user);
+        }
+      }
+      return mappedArray;
+    case `map` :
+      for (const user of userArray) {
+        if (callback(user)) {
+          mappedArray.push(user.job);
+        }
+      }
+      return mappedArray;
+    case `every` :
+      for (const user of userList) {
+        if (!callback(user)) {
+          return false;
+        }
+      }
+      return true;
+    case `some` :
+      for (const user of userList) {
+        if (callback(user)) {
+          return true;
+        }
+      }
+      return false;
+  }
+}
+
+
+const result8 = custom(userList, user => user.hobbys.length === 2, 'filter');
+console.log(result8);
+console.log('==============================');
+
+const result9 = custom(userList, user => user.job, 'map');
+console.log(result9);
+console.log('==============================');
+const result10 = custom(userList, user => user.address === '서울', 'every');
+console.log(result10);
+console.log('==============================');
+const result11 = custom(userList, user => user.userName.includes('왕'), 'some');
+console.log(result11);
+console.log('==============================');
+
+
 
