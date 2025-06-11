@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+    <style>
+        #fruits {
+            display: flex;
+            list-style: none;
+            padding: 20px;
+            border: 2px solid red;
+            flex-wrap: wrap;
+        }
+
+        #fruits li {
+            width: 100px;
+            cursor: pointer;
+            background: orange;
+            margin-right: 10px;
+        }
+
+        .active {
+            color: red;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <ul id="fruits">
+        <li id="apple">Apple</li>
+        <li id="banana">Banana</li>
+        <li id="grape">Grape</li>
+    </ul>
+
+    <div>선택된 과일: <em class="msg">Apple</em></div>
+
+    <label>
+        # 새로운 과일 추가하기:
+        <input type="text" class="text-box">
+        <button id="add">추가</button>
+    </label>
+
+    <script>
+        const $listItems = [... document.getElementById(`fruits`).children];
+
+        $listItems.forEach($li => {
+          $li.addEventListener('click', e => {
+            // 클릭한 li태그가 가진 텍스트를 em태그로 복사
+            console.log(e.target.textContent);
+            const $msg = document.querySelector(`.msg`);
+            $msg.textContent = e.target.textContent;
+
+
+            // 1. 기존에 모든 li태그에 class=active가 있는지 확인 후
+            // 있으면 바로 제거
+            // 2. 방금 클릭한 그 녀석에게 class=active 추가
+            $listItems.forEach(item =>item.classList.remove('active'));
+            $li.classList.add('active');
+          });
+        });
+    </script>
+</body>
+</html>
