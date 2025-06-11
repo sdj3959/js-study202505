@@ -7,17 +7,23 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Title</title>
     <style>
-        .text {
+        #text {
             font-size: 100px;
         }
     </style>
 </head>
 <body>
 
-    <div id="text">이 택스트에 마우스를 올려보세요.</div>
+    <div id="text">이 텍스트에 마우스를 올려보세요.</div>
 
     <script>
-        const $text =
+        const $text = document.getElementById('text');
+        $text.addEventListener('mouseover', () => {
+          $text.style.color = 'blue';
+        });
+        $text.addEventListener('mouseout', () => {
+          $text.style.color = 'black';
+        });
     </script>
 
 </body>
