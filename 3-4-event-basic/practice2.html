@@ -21,5 +21,27 @@
     </div>
     <img id="image" src="https://image.yes24.com/goods/105982287/XL" alt="이미지">
 
+    <script>
+        const $btnIncreaseSize = document.getElementById(`increaseSize`);
+        const $btnDecreaseSize = document.getElementById(`decreaseSize`);
+
+        const $img = document.querySelector(`#image`);
+
+        let imgSize = 100;
+
+        $btnIncreaseSize.addEventListener(`click`, () => {
+          if(imgSize<=200) {
+            imgSize += 20;
+            $img.style.width = `${imgSize}px`;
+          }
+        });
+        $btnDecreaseSize.addEventListener(`click`, () => {
+          if(imgSize>20){
+            imgSize -= 20;
+            $img.style.width = `${imgSize}px`;
+          }
+        });
+    </script>
+
 </body>
 </html>
