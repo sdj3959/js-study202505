@@ -7,18 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Title</title>
     <style>
-        .text {
-            font-size: 100px;
+        #image {
+            width: 100px;
+            transition: width 0.3s;
         }
     </style>
 </head>
 <body>
 
-    <div id="text">이 택스트에 마우스를 올려보세요.</div>
-
-    <script>
-        const $text =
-    </script>
+    <div class="btn-group">
+        <button id="increaseSize">이미지 크기 증가</button>
+        <button id="decreaseSize">이미지 크기 감소</button>
+    </div>
+    <img id="image" src="https://image.yes24.com/goods/105982287/XL" alt="이미지">
 
 </body>
 </html>
