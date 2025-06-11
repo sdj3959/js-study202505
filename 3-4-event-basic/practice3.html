@@ -12,6 +12,21 @@
     <input type="text" id="colorInput" placeholder="색상 이름이나 HEX 코드를 입력하세요">
     <div id="warning" style="color: red; display: none;">유효하지 않은 색상입니다!</div>
 
+    <script>
+        const $body = document.body;
+        const $inputBox = document.querySelector(`#colorInput`);
+        const wrongText = document.querySelector(`#warning`);
+        let colorText = '';
+
+        $inputBox.addEventListener('input', () =>{
+          colorText = $inputBox.value;
+          $body.style.background = colorText;
+          if (colorText !== $body.style.background.toString()) wrongText.style.display = 'block';
+          else wrongText.style.display = 'none';
+        });
+
+    </script>
+
 
 </body>
 </html>
