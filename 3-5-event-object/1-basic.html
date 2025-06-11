@@ -14,8 +14,26 @@
 
     <script>
         document.addEventListener('click', (e) =>{
-          document.querySelector(`.show`).textContent = `x: ${e.x}, y: ${e.y}`;
-        })
+          let $msg = document.querySelector(`.show`);
+          if (e.shiftKey){
+            $msg.textContent = `x: ${e.x}, y: ${e.y}`;
+          } else {
+            $msg.textContent = '';
+          }
+        });
+
+        const $input = document.getElementById('txt');
+        $input.addEventListener('keyup', (e) =>{
+          // 입력값, 쉬프트키 ESC 뭘 눌렀는지 어케앎??
+          // console.log(e.target.value);
+          e.stopPropagation();
+
+
+          if (e.key ==='Enter'){
+            document.querySelector(`.show`).textContent = e.target.value;
+            e.target.value = ''; // 입력창 리셋
+          }
+        });
     </script>
 
 </body>
