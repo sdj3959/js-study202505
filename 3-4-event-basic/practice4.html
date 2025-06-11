@@ -68,6 +68,24 @@
         'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D'
       ];
 
+      const $prevBtn = document.querySelector('#prev');
+      const $nextBtn = document.querySelector('#next');
+
+      const $imgBox = document.querySelector(`#image`);
+
+      let idx = 0;
+
+      $nextBtn.addEventListener('click', () => {
+        if (idx === 2) idx = -1;
+        if (idx !== images.length - 1) idx++;
+        $imgBox.setAttribute(`src`, images[idx]);
+      });
+      $prevBtn.addEventListener('click', () => {
+        if (idx === 0) idx = 3;
+        if (idx !== 0) idx--;
+        $imgBox.setAttribute(`src`, images[idx]);
+      });
+
     </script>
 
 </body>
