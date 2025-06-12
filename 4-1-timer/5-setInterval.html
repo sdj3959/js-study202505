@@ -11,5 +11,19 @@
 
     <p class="msg"></p>
 
+    <script>
+        const $msg = document.querySelector(`.msg`);
+
+        // 정해진 시간마다 코드를 반복
+        setInterval(() =>{
+          const now = new Date(); // 현재 시간 읽기
+          $msg.textContent = now.toLocaleTimeString();
+        },1000);
+
+        /*setInterval(() => {
+        $msg.textContent += `안뇽~`;
+        }, 300);*/
+    </script>
+
 </body>
 </html>
