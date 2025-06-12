@@ -18,11 +18,23 @@
         const $cancel = document.getElementById(`cancel`);
         const $msg = document.querySelector(`.msg`);
 
+        let timerId = null;
+
         $start.addEventListener('click', e => {
+          // 버튼 잠그기
+          $start.disabled = true;
+          $cancel.disabled = false;
           $msg.textContent = '2초만 기다리세요!';
-          setTimeout(() =>{
+          timerId = setTimeout(() =>{
             $msg.textContent = '안뇽하세요!';
           }, 2000);
+        });
+
+        $cancel.addEventListener('click', e=>{
+          $cancel.disabled = true;
+          clearTimeout(timerId); // setTimeout 취소함수
+          $msg.textContent = '타이머가 취소되었습니다.';
+          $start.disabled = false;
         });
     </script>
 
