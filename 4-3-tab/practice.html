@@ -135,50 +135,74 @@
     </div>
 
     <script>
-        const $stepIndicators = [... document.querySelectorAll(`.step-indicator`)];
-        const $stepContents = [... document.querySelectorAll('.step-content')];
+      // ====== 필요한 요소 노드들 가져오기 ===== //
+      // 이전, 다음 버튼 가져오기
+      const [$prevBtn, $nextBtn] = [...document.querySelector('.step-navigation').children];
+      const $contents = [...document.querySelectorAll('.step-content')];
+      const $indicators = [...document.querySelectorAll('.step-indicator')];
 
-        const $prevBtn = document.getElementById('prev-btn');
-        const $nextBtn = document.getElementById('next-btn');
+      // ====== 필요한 변수 선언 ======= //
+      // 지금 현재 몇단계를 보고있는지를 전역적으로 기억할 수 있게
+      let currentStep = 1;
+      // 전체 단계의 개수
+      const totalSteps = $indicators.length;
 
-        let currentIdx = 0;
-
-        $stepIndicators.forEach($indicator => {
-          $indicator.addEventListener(`click`, e=>{
-            $stepIndicators.forEach(inc => inc.classList.remove('active'));
-            $stepContents.forEach((ctt => ctt.classList.remove('active')));
-
+      // ==== 공통 처리 함수 정의 ==== //
+      function updateUI() {
+        // 1. 인디케이터에 현재스텝에 맞는 태그를 찾아 active부여
+        $indicators.forEach(($indicator, index) => {
+          if (currentStep === index + 1) {
             $indicator.classList.add('active');
-            document.getElementById(`step-${$indicator.dataset.step}`).classList.add(`active`);
-            currentIdx = $stepIndicators.indexOf($indicator);
-          });
-        });
-
-        $prevBtn.addEventListener(`click`,e=> {
-          $stepIndicators.forEach(inc=>inc.classList.remove('active'));
-          $stepContents.forEach(ctt=>ctt.classList.remove(`active`));
-
-          if (currentIdx === $stepIndicators.length-2) {
-            $nextBtn.disabled = 'true';
+          } else {
+            $indicator.classList.remove('active');
           }
-          currentIdx--;
-          $stepIndicators[currentIdx].classList.add(`active`);
-          $stepContents[currentIdx].classList.add(`active`);
         });
 
-        $nextBtn.addEventListener(`click`,e=> {
-          $stepIndicators.forEach(inc=>inc.classList.remove('active'));
-          $stepContents.forEach(ctt=>ctt.classList.remove(`active`));
-
-          if (currentIdx === $stepIndicators.length-2) {
-            $nextBtn.disabled = 'true';
+        // 2. 콘텐츠 박스 업데이트
+        $contents.forEach(($content) => {
+          // 현재 활성화해야하는 컨텐츠박스의 id의 끝값과 currentStep의 값이 일치
+          if ($content.getAttribute('id') === `step-${currentStep}`) {
+            $content.classList.add('active');
+          } else {
+            $content.classList.remove('active');
           }
-          currentIdx++;
-          $stepIndicators[currentIdx].classList.add(`active`);
-          $stepContents[currentIdx].classList.add(`active`);
         });
+
+        // 3. 이전/ 다음버튼 활성화 처리
+        // step 1에서만 이전버튼 비활성화 나머지는 활성화
+        // 마지막스텝에서만 다음버튼 비활성화 나머지는 활성화
+        $prevBtn.disabled = currentStep === 1;
+        $nextBtn.disabled = currentStep === totalSteps;
+      }
+
+      // ====  이벤트 바인딩 ==== //
+      // 다음버튼 클릭시
+      $nextBtn.addEventListener('click', e => {
+        if (currentStep < totalSteps) {
+          currentStep++;
+          // UI 업데이트
+          updateUI();
+        }
+      });
+
+      // 이전버튼 클릭시
+      $prevBtn.addEventListener('click', e => {
+        if (currentStep > 1) {
+          currentStep--;
+          // UI 업데이트
+          updateUI();
+        }
+      });
+
+      // 인디케이터 직접 클릭 시
+      $indicators.forEach($indicator => {
+        $indicator.addEventListener('click', e => {
+          currentStep = +e.target.dataset.step;
+          updateUI();
+        });
+      });
+
     </script>
-
 
 </body>
 </html>
