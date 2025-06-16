@@ -122,22 +122,23 @@
         };
       };
 
-      const {increase : inc, decrease : dec} = closure();
+      const {increase : incT1, decrease : decT1} = closure();
+      const {increase : incT2, decrease : decT2} = closure();
 
       $incBtn1.addEventListener('click', evt => {
-        $text1.style.fontSize = inc()+'px';
+        $text1.style.fontSize = incT1()+'px';
         $textSizeDp1.textContent = $text1.style.fontSize;
       });
       $deBtn1.addEventListener('click', evt => {
-        $text1.style.fontSize = dec()+'px';
+        $text1.style.fontSize = decT1()+'px';
         $textSizeDp1.textContent = $text1.style.fontSize;
       });
       $incBtn2.addEventListener('click', evt => {
-        $text2.style.fontSize = inc()+'px';
+        $text2.style.fontSize = incT2()+4+'px';
         $textSizeDp2.textContent = $text2.style.fontSize;
       });
       $deBtn2.addEventListener('click', evt => {
-        $text2.style.fontSize = dec()+'px';
+        $text2.style.fontSize = decT2()+4+'px';
         $textSizeDp2.textContent = $text2.style.fontSize;
       });
 

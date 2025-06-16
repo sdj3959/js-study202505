@@ -30,37 +30,47 @@
         <button id="increase2"> +</button>
     </div>
 
+    <div class="counter">
+        <h1>피망 개수</h1>
+        <h2 class="count3">0</h2>
+        <button id="decrease3"> -</button>
+        <button id="increase3"> +</button>
+    </div>
+
     <script>
-      const $count1 = document.querySelector('.count1');
-      const $count2 = document.querySelector('.count2');
-      const $decreaseBtn1 = document.querySelector(`#decrease1`);
-      const $decreaseBtn2 = document.querySelector(`#decrease2`);
-      const $increaseBtn1 = document.querySelector(`#increase1`);
-      const $increaseBtn2 = document.querySelector(`#increase2`);
 
-      function closure() {
+      // 카운터들을 독립적으로 관리해주는 클로저함수 정의
+      function counterClosure() {
         let count = 0;
-        const increase = ()=> ++count;
-        const decrease = ()=> --count;
+        return {
+          increment: () => ++count,
+          decrement: () => --count
+        };
+      }
 
-        return {increase, decrease};
-      };
-      const {increase : chocoInc , decrease : chocoDec } = closure();
-      const {increase : cheeseInc , decrease : cheeseDec } = closure();
+      // 카운터 UI를 일괄 처리해주는 함수
+      function initializeCountPanel(counterId) {
+        // 카운터 요소노드 가져오기
+        const $increaseBtn = document.getElementById(`increase${counterId}`);
+        const $decreaseBtn = document.getElementById(`decrease${counterId}`);
+        const $text = document.querySelector(`.count${counterId}`);
 
+        // 카운터의 클로저 호출
+        const { increment, decrement } = counterClosure();
+        $increaseBtn.addEventListener('click', e => {
+          $text.textContent = increment();
+        });
+        $decreaseBtn.addEventListener('click', e => {
+          $text.textContent = decrement();
+        });
 
-      $increaseBtn1.addEventListener('click', e=>{
-        $count1.textContent = chocoInc();
-      });
-      $decreaseBtn1.addEventListener('click', e=>{
-        $count1.textContent = chocoDec();
-      });
-      $increaseBtn2.addEventListener('click', e=>{
-        $count2.textContent = cheeseInc();
-      });
-      $decreaseBtn2.addEventListener('click', e=>{
-        $count2.textContent = cheeseDec();
-      });
+      }
+
+      // 첫번째 카운터 패널 세팅
+
+      for (let i = 1; i <= document.querySelectorAll('.counter').length; i++) {
+        initializeCountPanel(i);
+      }
     </script>
 </body>
 </html>
