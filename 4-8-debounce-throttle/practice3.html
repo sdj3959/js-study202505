@@ -121,6 +121,77 @@
     </div>
     <script>
       // 이 곳에 JavaScript 코드를 작성하세요.
+      function createHero(num) {
+
+        // 생성 화면
+        const $setupArea = document.querySelector(`.setup-area`);
+        const $inputName = document.getElementById(`hero-name-${num}`);
+        const $inputSpecial = document.getElementById(`special-move-${num}`);
+        const $createBtn = document.getElementById(`btn-create-${num}`);
+
+        // 전투 화면
+        const $statusArea = document.getElementById(`arena-${num}`);
+        const $status = document.getElementById(`hero-status-${num}`);
+        const $attkBtn = document.getElementById(`btn-attack-${num}`);
+        const $specialBtn = document.getElementById(`btn-special-${num}`);
+        const $damageBtn = document.getElementById(`btn-damage-${num}`);
+        const $healBtn = document.getElementById(`btn-heal-${num}`);
+        const $battleLog = document.getElementById(`battle-log-${num}`);
+
+        let userName = $inputName.value;
+        let specialName = $inputSpecial.value;
+
+        let hp = 100;
+        const hpStatus = (hp)=> `HP: ${hp} / 100`;
+
+        // 생성 화면 이벤트 리스너
+        $inputName.addEventListener('input', e => {
+          userName = $inputName.value;
+        });
+        $inputSpecial.addEventListener('input', e=>{
+          specialName = $inputSpecial.value;
+        });
+
+        $createBtn.addEventListener('click', e => {
+          $setupArea.classList.add(`hidden`);
+          $statusArea.classList.remove('hidden');
+          console.log($inputName.textContent);
+          $status.textContent = userName +" "+ hpStatus(hp);
+        });
+
+        // 공격,힐 로그 생성 함수
+        function createBattleLog() {}
+
+        // 전투 화면 이벤트 리스너
+        $attkBtn.addEventListener(`click`, () =>{
+          const rndAttkDmg = Math.floor(Math.random()*10)+1;
+          if (hp-rndAttkDmg > 0) hp -= rndAttkDmg;
+          else hp = 0;
+          $status.textContent = userName + " " + hpStatus(hp);
+          $battleLog.textContent = userName + "의 일반 공격!";
+        });
+        $specialBtn.addEventListener(`click`, () =>{
+          const rndSpecialDmg = Math.floor(Math.random()*30)+1;
+          if (hp-rndSpecialDmg > 0) hp -= rndSpecialDmg;
+          else hp = 0;
+          $status.textContent = userName + " " + hpStatus(hp);
+        });
+        $damageBtn.addEventListener(`click`, () =>{
+          const rndDmg = Math.floor(Math.random()*20)+1;
+          if (hp-rndDmg > 0) hp -= rndDmg;
+          else hp = 0;
+          $status.textContent = userName + " " + hpStatus(hp);
+        });
+        $healBtn.addEventListener(`click`, () =>{
+          const rndHeal = Math.floor(Math.random()*20)+1;
+          if (hp+rndHeal < 100) hp += rndHeal;
+          else hp = 100;
+          $status.textContent = userName + " " + hpStatus(hp);
+        });
+      }
+
+      createHero(1);
+      // createHero(2);
 
     </script>
 </body>
