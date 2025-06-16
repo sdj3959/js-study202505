@@ -16,10 +16,11 @@
         }
         .wrapper {
             display: flex;
+            flex-wrap: wrap;
             gap: 30px; /* 두 조절기 사이의 간격 */
         }
         .container {
-            width: 400px;
+            width: 40%;
             padding: 30px;
             background-color: white;
             border-radius: 10px;
@@ -72,76 +73,111 @@
     </style>
 </head>
 <body>
-
     <div class="wrapper">
-
+        <!--
         <div class="container">
-            <h2>조절기 1</h2>
-            <p id="text-1" class="target-text">첫 번째 텍스트입니다.</p>
-            <div class="controls">
-                <button id="btn-decrease-1" class="btn">-</button>
-                <div id="size-display-1" class="size-display">16px</div>
-                <button id="btn-increase-1" class="btn">+</button>
-            </div>
+          <h2>조절기 1</h2>
+          <p id="text-1" class="target-text">첫 번째 텍스트입니다.</p>
+          <div class="controls">
+            <button id="btn-decrease-1" class="btn">-</button>
+            <div id="size-display-1" class="size-display">16px</div>
+            <button id="btn-increase-1" class="btn">+</button>
+          </div>
         </div>
-
-        <div class="container">
-            <h2>조절기 2</h2>
-            <p id="text-2" class="target-text">두 번째 텍스트입니다.</p>
-            <div class="controls">
-                <button id="btn-decrease-2" class="btn">-</button>
-                <div id="size-display-2" class="size-display">20px</div>
-                <button id="btn-increase-2" class="btn">+</button>
-            </div>
-        </div>
-
+        -->
     </div>
 
     <script>
-      // 이 곳에 JavaScript 코드를 작성하세요.
-      const $text1 = document.querySelector(`#text-1`);
-      const $text2 = document.querySelector(`#text-2`);
-      const $textSizeDp1 = document.querySelector(`#size-display-1`);
-      const $textSizeDp2 = document.querySelector(`#size-display-2`);
-      const $deBtn1 = document.querySelector(`#btn-decrease-1`);
-      const $deBtn2 = document.querySelector(`#btn-decrease-2`);
-      const $incBtn1 = document.querySelector(`#btn-increase-1`);
-      const $incBtn2 = document.querySelector(`#btn-increase-2`);
-
-      const closure = () =>{
-        let size = 16;
-        const increase = () => {
-          return ++size;
-        };
-        const decrease = () => {
-          return --size;
-        };
+      // 폰트크기를 독립적으로 조절해주는 클로저 정의
+      function createFontSizer(initialSize) {
+        let size = initialSize;
         return {
-          decrease,
-          increase
+          increment: () => ++size,
+          decrement: () => {
+            if (size > 6) {
+              size--;
+            }
+            return size;
+          }
         };
-      };
+      }
 
-      const {increase : incT1, decrease : decT1} = closure();
-      const {increase : incT2, decrease : decT2} = closure();
+      // 조절기 태그를 동적으로 생성하는 함수
+      function makeSizer(sizerId, initSize, initText) {
+        const $container = document.createElement('div');
+        $container.classList.add('container');
 
-      $incBtn1.addEventListener('click', evt => {
-        $text1.style.fontSize = incT1()+'px';
-        $textSizeDp1.textContent = $text1.style.fontSize;
-      });
-      $deBtn1.addEventListener('click', evt => {
-        $text1.style.fontSize = decT1()+'px';
-        $textSizeDp1.textContent = $text1.style.fontSize;
-      });
-      $incBtn2.addEventListener('click', evt => {
-        $text2.style.fontSize = incT2()+4+'px';
-        $textSizeDp2.textContent = $text2.style.fontSize;
-      });
-      $deBtn2.addEventListener('click', evt => {
-        $text2.style.fontSize = decT2()+4+'px';
-        $textSizeDp2.textContent = $text2.style.fontSize;
-      });
+        $container.innerHTML = `
+        <h2>조절기 ${sizerId}</h2>
+        <p id="text-${sizerId}" class="target-text">${initText} 번째 텍스트입니다.</p>
+        <div class="controls">
+          <button id="btn-decrease-${sizerId}" class="btn">-</button>
+          <div id="size-display-${sizerId}" class="size-display">${initSize}px</div>
+          <button id="btn-increase-${sizerId}" class="btn">+</button>
+        </div>
+      `;
 
+        document.querySelector('.wrapper').append($container);
+      }
+
+      // 조절기 세팅 함수
+      function initSizerPanel(sizerId, initialSize, initText) {
+
+        // 태그 생성
+        makeSizer(sizerId, initialSize, initText);
+
+        // 조절기 노드 가져오기
+        const $text = document.getElementById(`text-${sizerId}`); // p태그
+        const $display = document.getElementById(`size-display-${sizerId}`);
+        const $incBtn = document.getElementById(`btn-increase-${sizerId}`);
+        const $decBtn = document.getElementById(`btn-decrease-${sizerId}`);
+
+        // 초기 폰트사이즈를 텍스트박스에 적용해놓기
+        $text.style.fontSize = `${initialSize}px`;
+
+        // 클로저를 호출해서 첫번째 조절기의 폰트사이즈를 제어하는 함수
+        const { increment, decrement } = createFontSizer(initialSize);
+
+        const updateUI = (newSize) => {
+          $text.style.fontSize = `${newSize}px`;
+          $display.textContent = `${newSize}px`;
+        };
+
+        $incBtn.addEventListener('click', e => {
+          // 새로운 증가된 폰트사이즈 가져오기
+          updateUI(increment());
+        });
+        $decBtn.addEventListener('click', e => {
+          // 새로운 감소된 폰트사이즈 가져오기
+          updateUI(decrement());
+        });
+      }
+
+      // 묶음데이터를 객체 배열로 저장
+      const sizerPanelArray = [
+        {
+          id: 1,
+          initFontSize: 16,
+          initText: '첫'
+        },
+        {
+          id: 2,
+          initFontSize: 20,
+          initText: '두'
+        },
+        {
+          id: 3,
+          initFontSize: 24,
+          initText: '세'
+        },
+        {
+          id: 4,
+          initFontSize: 10,
+          initText: '네'
+        },
+      ];
+
+      sizerPanelArray.forEach(panel => initSizerPanel(panel.id, panel.initFontSize, panel.initText));
     </script>
 
 </body>
