@@ -45,20 +45,21 @@
 
         return {increase, decrease};
       };
-      const {increase , decrease } = closure();
+      const {increase : chocoInc , decrease : chocoDec } = closure();
+      const {increase : cheeseInc , decrease : cheeseDec } = closure();
 
 
       $increaseBtn1.addEventListener('click', e=>{
-        $count1.textContent = increase();
+        $count1.textContent = chocoInc();
       });
       $decreaseBtn1.addEventListener('click', e=>{
-        $count1.textContent = decrease();
+        $count1.textContent = chocoDec();
       });
       $increaseBtn2.addEventListener('click', e=>{
-        $count2.textContent = increase();
+        $count2.textContent = cheeseInc();
       });
       $decreaseBtn2.addEventListener('click', e=>{
-        $count2.textContent = decrease();
+        $count2.textContent = cheeseDec();
       });
     </script>
 </body>

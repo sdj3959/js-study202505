@@ -99,6 +99,47 @@
 
     <script>
       // 이 곳에 JavaScript 코드를 작성하세요.
+      const $text1 = document.querySelector(`#text-1`);
+      const $text2 = document.querySelector(`#text-2`);
+      const $textSizeDp1 = document.querySelector(`#size-display-1`);
+      const $textSizeDp2 = document.querySelector(`#size-display-2`);
+      const $deBtn1 = document.querySelector(`#btn-decrease-1`);
+      const $deBtn2 = document.querySelector(`#btn-decrease-2`);
+      const $incBtn1 = document.querySelector(`#btn-increase-1`);
+      const $incBtn2 = document.querySelector(`#btn-increase-2`);
+
+      const closure = () =>{
+        let size = 16;
+        const increase = () => {
+          return ++size;
+        };
+        const decrease = () => {
+          return --size;
+        };
+        return {
+          decrease,
+          increase
+        };
+      };
+
+      const {increase : inc, decrease : dec} = closure();
+
+      $incBtn1.addEventListener('click', evt => {
+        $text1.style.fontSize = inc()+'px';
+        $textSizeDp1.textContent = $text1.style.fontSize;
+      });
+      $deBtn1.addEventListener('click', evt => {
+        $text1.style.fontSize = dec()+'px';
+        $textSizeDp1.textContent = $text1.style.fontSize;
+      });
+      $incBtn2.addEventListener('click', evt => {
+        $text2.style.fontSize = inc()+'px';
+        $textSizeDp2.textContent = $text2.style.fontSize;
+      });
+      $deBtn2.addEventListener('click', evt => {
+        $text2.style.fontSize = dec()+'px';
+        $textSizeDp2.textContent = $text2.style.fontSize;
+      });
 
     </script>
 
