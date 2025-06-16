@@ -160,7 +160,23 @@
         });
 
         // 공격,힐 로그 생성 함수
-        function createBattleLog() {}
+        function createBattleLog(type, ...args) {
+          const $newLi = document.createElement('div');
+          $newLi.classList.add(`log-entry`);
+
+          switch (type) {
+            case 'attk' :
+              $newLi.textContent = ``
+              break;
+            case 'special' :
+              break;
+            case 'dmg' :
+              break;
+            case `heal` :
+          }
+          $newLi.textContent = `안녕하세요!`;
+          $battleLog.append($newLi);
+        }
 
         // 전투 화면 이벤트 리스너
         $attkBtn.addEventListener(`click`, () =>{
@@ -168,7 +184,7 @@
           if (hp-rndAttkDmg > 0) hp -= rndAttkDmg;
           else hp = 0;
           $status.textContent = userName + " " + hpStatus(hp);
-          $battleLog.textContent = userName + "의 일반 공격!";
+          createBattleLog(attk, );
         });
         $specialBtn.addEventListener(`click`, () =>{
           const rndSpecialDmg = Math.floor(Math.random()*30)+1;
