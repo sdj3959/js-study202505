@@ -25,11 +25,6 @@ const $modalBtn = document.getElementById(`restart-button`);
 
 // ================================================================================
 
-
-// 랜덤 값과 디버깅용 정답 (console.log)
-// let game.rnd = Math.floor(Math.random() * 100) + 1;
-// console.log(`정답 : ${game.rnd}`);
-
 // 게임 상태 객체
 const game = {
   rnd : null,
@@ -200,7 +195,7 @@ $guessBtn.addEventListener('click', e => {
 });
 
 
-// 모달 다시 도전하기 버튼 클릭시 재시작 ====================== 문제 : 올바른 범위 내 alert 두 번뜸 -> 원래 실행된 함수 종료 방법...
+// 모달 다시 도전하기 버튼 클릭시 재시작
 $modalBtn.addEventListener('click', gameStart);
 
 // ================================================================================
