@@ -42,6 +42,38 @@ let inputValue = null;
 
 // ================================================================================
 
+// 피드백 클래스 초기화 함수
+function resetFeedbackClass() {
+  ['up', 'down', 'correct'].forEach(cls => $feedback.classList.remove(cls));
+}
+
+// min max lastChance 조절 함수
+function updateRangeAndChance(isUp) {
+  if (isUp){
+    game.max = +inputValue-1;
+    $end.textContent = game.max;
+  } else {
+    game.min = +inputValue+1;
+    $begin.textContent = game.min;
+  }
+  game.lastChance--;
+  $chanceLeft.textContent = game.lastChance;
+}
+
+// 게임오버 상태 체크 함수
+function checkGameOver() {
+  if (game.min === game.max && game.lastChance > 0) {
+    showModal(true, game.rnd);
+    return true;
+  }
+  if (game.lastChance === 0) {
+    showModal(false, game.rnd);
+    return true;
+  }
+  return false;
+}
+
+
 
 // 피드백 글자 변경 함수
 function feedbackChange(result) {
@@ -49,30 +81,22 @@ function feedbackChange(result) {
   switch (result) {
     case 'CORRECT' :
       $feedback.textContent = 'CORRECT!!';
-      feedbackList.forEach(item => {
-        $feedback.classList.remove(item);
-      });
+      resetFeedbackClass();
       $feedback.classList.add(`correct`);
       break;
     case 'DOWN' :
       $feedback.textContent = 'DOWN!!';
-      feedbackList.forEach(item => {
-        $feedback.classList.remove(item);
-      });
+      resetFeedbackClass();
       $feedback.classList.add(`down`);
       break;
     case 'UP' :
       $feedback.textContent = 'UP!!';
-      feedbackList.forEach(item => {
-        $feedback.classList.remove(item);
-      });
+      resetFeedbackClass();
       $feedback.classList.add(`up`);
       break;
     case 'RESTART' :
       $feedback.textContent = '추리를 시작하세요!';
-      feedbackList.forEach(item => {
-        $feedback.classList.remove(item);
-      });
+      resetFeedbackClass();
   }
 }
 
@@ -160,21 +184,13 @@ $guessBtn.addEventListener('click', e => {
   } else if (inputValue > game.rnd && inputValue <= game.max) { // 정답보다 큰 경우
     feedbackChange('DOWN');
     addList(`${inputValue} (DOWN)`, 'down');
-    game.max = +inputValue-1;
-    $end.textContent = game.max;
-    game.lastChance--;
-    $chanceLeft.textContent = `${game.lastChance}`;
-    if (game.min===game.max && game.lastChance>0) showModal(true, game.rnd);
-    if (game.lastChance === 0) showModal(false, game.rnd);
+    updateRangeAndChance(true);
+    checkGameOver();
   } else if (inputValue < game.rnd && inputValue >= game.min) { // 정답보다 작은 경우
     feedbackChange('UP');
     addList(`${inputValue} (UP)`, 'up');
-    game.min = +inputValue+1;
-    $begin.textContent = game.min;
-    game.lastChance--;
-    $chanceLeft.textContent = `${game.lastChance}`;
-    if (game.min===game.max && game.lastChance>0) showModal(true, game.rnd);
-    if (game.lastChance === 0) showModal(false, game.rnd);
+    updateRangeAndChance(false);
+    checkGameOver();
   } else { // 범위 내 입력이 아닐 경우
     alert(`올바른 범위 내 숫자를 입력하세요`);
   }
