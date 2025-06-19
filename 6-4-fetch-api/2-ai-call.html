@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+</head>
+<body>
+
+    <script>
+        const API_KEY = '';
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+
+        // fetch를 그냥 쓰면 자동으로 GET 요청 처리
+        // POST, PUT, DELETE 요청은 별도의 옵션처리
+        const payload = {
+          "contents": [
+            {
+              "parts": [
+                {
+                  "text": "서울 오늘의 날씨는 어떨까? 저녁 6시 날씨 알아와봐"
+                }
+              ]
+            }
+          ]
+        }
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type' : 'application/json',
+          },
+          body: JSON.stringify(payload)
+        })
+          .then(res => res.json())
+          .then(result => {
+            // console.log(result.candidates[0].content.parts[0].text);
+            const responseText = result.candidates[0].content.parts[0].text;
+            document.body.innerHTML = responseText;
+          });
+    </script>
+
+</body>
+</html>
