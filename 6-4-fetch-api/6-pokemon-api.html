@@ -151,6 +151,85 @@
 
       const pokeUrl = 'https://pokeapi.co/api/v2/pokemon';
 
+      const typeImages = [
+        {
+          "name": "normal",
+          "url": "https://i.namu.wiki/i/UVQcUGgf2XkQ7aR12pmqOA76fnAnZZ27zrQMRs_9MbTXTW_GEUVJzWiKbUdK3cRyqW-AeKC4OajyMs_mUf6p7w.svg"
+        },
+        {
+          "name": "fighting",
+          "url": "https://i.namu.wiki/i/g5G5aqVMr_kVzVprzzZYDM7VU98YvPaCeu32f0uRAolxBfgEtL84GH35CiZZnaFQw8VYSVH4FWauiOnpM3d9SA.svg"
+        },
+        {
+          "name": "flying",
+          "url": "https://i.namu.wiki/i/CQLOW9IDPvfxuIIppTGYBa3y2TsEuk5FybazRwqeuaFgF9FNHRZHUkWa8tsjL7B2FFdD_9MatdgQQyH_KBKa4w.svg"
+        },
+        {
+          "name": "poison",
+          "url": "https://i.namu.wiki/i/wOoyLLDKiy-oFf4rAvtS_Zu2bgsefJmvz6lYNV8j44lT_mjYT6puaqVSgx7I4zEEZVbrT9DNLfF1xxg2mwKnhQ.svg"
+        },
+        {
+          "name": "ground",
+          "url": "https://i.namu.wiki/i/_1mjTC4i4eo1U8dXQVfn76wJ_8c6XZ8YBR712UelnIIaeDYNQx4sZ0GM9sw9zO0-QZwDhfcYPgA3bCEDVOQdhA.svg"
+        },
+        {
+          "name": "rock",
+          "url": "https://i.namu.wiki/i/8m5bA5hAR8wz07X0yHh3goxFP4Hq9fTqVnN1fGUa1SjptLefdMWZrCnxEbXpMuTGVGCyZ56bkHy2-K1qL987eA.svg"
+        },
+        {
+          "name": "bug",
+          "url": "https://i.namu.wiki/i/jHoVDx4jP_ibO6b4MYWC4uodKB7nBGRbUcMApoYKjPEt3ZP_rYzy__nAlUTRiR7v3Ug0WEo-m6XekRPGbopiSw.svg"
+        },
+        {
+          "name": "ghost",
+          "url": "https://i.namu.wiki/i/mU0K2HVDEo3NWXUwJkDAdxw852nUBuUun8DJmvaRNrycYIUa9P7i3QrLvpvP9kr2GoH4zE6GeRRvUoDKfXrb2g.svg"
+        },
+        {
+          "name": "steel",
+          "url": "https://i.namu.wiki/i/6COggx_E1MEEOQY57cb18Wbi2oGbp0jZn7BYfh72rQ8K13X5-93sCohZbpxqyuzYypMGsCWOpjzdLUrQqN3UwA.svg"
+        },
+        {
+          "name": "fire",
+          "url": "https://i.namu.wiki/i/3Rd_IL-T3OpLiZf3NFjqGmHcLi8TVyhXc4J7aiPzBUkDLgGiD3tziNdNKzSLHqdqHbYAAPfUHOw8sY2UTp3foA.svg"
+        },
+        {
+          "name": "water",
+          "url": "https://i.namu.wiki/i/aIjVcS_Rifmg45S1epta4n9kfoYodbMVvFEenybo5Xx3NNWGBUDAK5951yYryu6X8gE7zvFeDyfe8-LFFZ0nwA.svg"
+        },
+        {
+          "name": "grass",
+          "url": "https://i.namu.wiki/i/xtB3WV8R_WPXVW6ft-3XCshA0Hh18mFlU3I7H-q_m8u-SkECorP9BTx8P0U0hw-xdOytHEmXybMV0jxSyxAc0g.svg"
+        },
+        {
+          "name": "electric",
+          "url": "https://i.namu.wiki/i/aIGMuCdw1p7AG4NDGxWfHvcu_QJgHwiXhhx-5OYTL0tQGDWkNOZcS77z_lfd-Qr9aD3gKGJCNCruw-9HBJ0NXkOyrkluoZGfTjxyWpbsNwnJxPd1ma4ByWN6Ur3Y4Q0CrqsJ-xTj3eKAzYgF-pJrwA.svg"
+        },
+        {
+          "name": "psychic",
+          "url": "https://i.namu.wiki/i/0Gd4OOht1-sgSyAyTGTAztx9X0xviiokovnUkok2F_3wGTiO81Aw66KeTf9-4MVFbxn7IbhJY1Ra8UrUWJFPOQ.svg"
+        },
+        {
+          "name": "ice",
+          "url": "https://i.namu.wiki/i/mW1sfdpreP-IWq12WE8AnamlNHAU-kCLeUODy6bAB-mgpzDqYMtcjiw-OJRzjSEor-eVc7qFG54f2WGoEOjP_A.svg"
+        },
+        {
+          "name": "dragon",
+          "url": "https://i.namu.wiki/i/WmIOiZtmmBqIvahkVaOI2C5Nmn484bhPOO118dllYEpBh2Vqglzg5647g3mjrLtoG5qRlpTcMpI0spOkIpTSdw.svg"
+        },
+        {
+          "name": "dark",
+          "url": "https://i.namu.wiki/i/eDyMcr395uKyNxT5v3b1fAdwZTuxY2c1GlRKT2gW4OmrKNV6JBvP8-OrOw9_sLWNF7gP-pm-7balFwZi6crx5A.svg"
+        },
+        {
+          "name": "fairy",
+          "url": "https://i.namu.wiki/i/jI-idDQjmCCHxnvdcvWKLl5Yj428W4PguwleARun7RqjY5Me7ij_W8TB3GKYLKZSX68ccACnmG_DFXBJEbXvNw.svg"
+        },
+        {
+          "name": "stellar",
+          "url": "https://i.namu.wiki/i/hf2gRypYf0w0oCk6p9LVr0E1rWjIMVQTdAMZht3g8A6ecvR7v8hyoZY3JXP-Sx-1nHSY7biJXZsAMdxrayNOyg.webp"
+        },
+      ];
+
       // 시작 위치
       let offset = 0;
       // 가져올 개수
