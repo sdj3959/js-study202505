@@ -27,7 +27,7 @@
 
   // ======= 핵심 로직 함수 정의 ======= //
 
-  /*
+  /**
   *  @description 현재 state 객체를 기반으로 화면을 렌더링 하는 함수
   * */
   function render() {
@@ -82,9 +82,59 @@
     });
 
     // 남은 할 일 개수를 계산해서 화면에 업데이트
+    $todosLeftCount.textContent = state.todos.filter(todo => !todo.completed).length.toString();
 
   }
 
+  /**
+  * @description 완료된 모든 할 일을 삭제하는 함수
+  * */
+  function clearCompletedTodos() {
+    state.todos = state.todos.filter(todo => !todo.completed);
+    render();
+  }
+
+  /**
+  * @description 새로운 할 일을 상태배열에 추가하는 함수
+  * @param newText {string} - 새로 추가할 할 일의 제목
+  * */
+  function addTodo(newText) {
+    state.todos.push({
+      id : Date.now(),
+      text : newText,
+      completed : false,
+    });
+    // 데이터가 변경될 때마다 리렌더링 명령
+    render();
+  }
+
+  /**
+  * @description 클릭한 할 일을 삭제하는 함수
+  * @param targetId 클릭한 li 태그가 갖고있던 id
+  * */
+  function deleteTodo(targetId) {
+    state.todos = state.todos.filter(todo => todo.id !== targetId);
+    // 렌더링 명령
+    render();
+  }
+
+  /**
+   * @description 할 일의 완료 상태를 토글하는 함수
+   * @param targetId 클릭한 li 태그가 갖고있던 id
+   * */
+  function toggleTodo(targetId) {
+    /*// 클릭한 타겟의 아이디가 일치하는 상태배열의 객체를 탐색
+    const foundTodo = state.todos.find(todo => todo.id === targetId);
+
+    // 그 객체의 completed 프로퍼티를 수정
+    foundTodo.completed = !foundTodo.completed;*/
+
+    state.todos = state.todos.map(todo =>
+      todo.id === targetId ? {...todo, completed: !todo.completed} : todo
+    );
+
+    render();
+  }
 
   // ======= 이벤트 리스너 설정 ======= //
 
@@ -100,6 +150,41 @@
 
     render(); // 바뀐 상태에 맞게 리렌더링 명령
   });
+
+  // 완료된 할 일 목록 지우기 이벤트
+  $clearCompletedBtn.addEventListener('click', e=>{
+    clearCompletedTodos();
+  });
+
+  // 새 할 일을 추가하는 이벤트
+  $todoForm.addEventListener(`submit`, e=>{
+    e.preventDefault();
+    const newTodoText = $todoInput.value.trim();
+    console.log(newTodoText);
+
+    // 실제로 상태배열에 입력된 데이터 추가
+    if (newTodoText) {
+      addTodo(newTodoText);
+    }
+
+    // 입력창 비우기
+    $todoInput.value = '';
+    $todoInput.focus();
+  });
+
+  // 할 일 목록에서 특정 할 일을 삭제하는 이벤트
+  //                완료 체크 이벤트
+  $todoList.addEventListener('click', e=>{
+    // 클릭한 태그에 연결되어있는 li의 id를 확인
+    const todoId = +e.target.closest('.todo-item').dataset.id;
+
+    if (e.target.matches(`.delete-button i`)) {
+      deleteTodo(todoId);
+    } else if (e.target.matches(`.todo-check`)) {
+      toggleTodo(todoId);
+    }
+  });
+
 
 
   // ======= 실행 코드 ======= //
